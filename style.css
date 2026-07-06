@@ -1,0 +1,425 @@
+/* =========================================
+   CSS Variables & Light Theme
+   ========================================= */
+:root {
+    /* Colors */
+    --bg-main: #97c0ea;
+    --bg-card: #fbfafa;
+    --text-main: #111111;
+    --text-muted: #fff6f6;
+    --border-color: #eaeaea;
+    --accent: #e63946; /* Vibrant red-orange */
+    
+    /* Fonts */
+    --font-main: 'Inter', sans-serif;
+    --font-display: 'Montserrat', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+    
+    /* Transitions */
+    --transition-normal: 0.3s ease;
+}
+
+/* =========================================
+   Base & Resets
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-main);
+}
+
+a {
+    text-decoration: none;
+    color: var(--text-main);
+    transition: var(--transition-normal);
+}
+
+a:hover {
+    color: var(--accent);
+}
+
+/* =========================================
+   Utilities
+   ========================================= */
+.bg-light-alt {
+    background-color: #f0f0f0;
+}
+
+.section-padding {
+    padding: 100px 0;
+}
+
+.text-accent {
+    color: var(--accent) !important;
+}
+
+.border-bottom-subtle {
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Modern Cards */
+.modern-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    transition: var(--transition-normal);
+}
+
+.modern-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Section Title */
+.section-title {
+    margin-bottom: 3rem;
+}
+
+.section-title h2 {
+    font-size: 2.5rem;
+    font-family: var(--font-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+}
+
+.section-title .underline {
+    height: 4px;
+    width: 60px;
+    background: var(--accent);
+    margin: 0.5rem 0 0;
+}
+
+.section-title.text-center .underline {
+    margin: 0.5rem auto 0;
+}
+
+/* Buttons */
+.btn-pill {
+    border-radius: 50px;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    transition: var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-black {
+    background: var(--text-main);
+    color: #fff;
+    border: 2px solid var(--text-main);
+}
+
+.btn-black:hover {
+    background: transparent;
+    color: var(--text-main);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text-main);
+    border: 2px solid var(--border-color);
+}
+
+.btn-outline:hover {
+    border-color: var(--text-main);
+    background: var(--text-main);
+    color: #fff;
+}
+
+/* Scroll Reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================================
+   Navbar
+   ========================================= */
+.navbar {
+    padding: 1.5rem 0;
+    background: transparent;
+    transition: background-color 0.3s ease, padding 0.3s ease;
+}
+
+.navbar.scrolled {
+    background: rgba(250, 249, 246, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.nav-logo-circle {
+    width: 40px;
+    height: 40px;
+    background: var(--text-main);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.2rem;
+}
+
+.nav-link {
+    color: var(--text-muted) !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin: 0 0.5rem;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--text-main) !important;
+}
+
+.nav-divider {
+    width: 1px;
+    height: 20px;
+    background-color: var(--border-color);
+    margin: 0 1rem;
+}
+
+.nav-social-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--text-main);
+    color: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    margin-left: 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+.nav-social-icon:hover {
+    transform: scale(1.1);
+    color: #fff;
+}
+
+/* =========================================
+   Hero Section
+   ========================================= */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+}
+
+.hero-greeting {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 3.5rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+}
+
+.hero-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 9rem;
+    line-height: 0.85;
+    letter-spacing: -4px;
+    margin-bottom: 3rem;
+    color: var(--text-main);
+    text-transform: uppercase;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+/* =========================================
+   Progress Bars
+   ========================================= */
+.custom-progress {
+    height: 6px;
+    background-color: var(--border-color);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.custom-progress .progress-bar {
+    background-color: var(--text-main);
+    border-radius: 3px;
+}
+
+/* =========================================
+   Projects
+   ========================================= */
+.project-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px 12px 0 0;
+}
+
+.project-img-wrapper img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.modern-card:hover .project-img-wrapper img {
+    transform: scale(1.05);
+}
+
+.tech-tags .badge {
+    background: var(--bg-light-alt);
+    color: var(--text-muted);
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    padding: 0.4em 0.8em;
+    border-radius: 4px;
+}
+
+/* =========================================
+   Timeline
+   ========================================= */
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background: var(--border-color);
+    top: 0;
+    bottom: 0;
+    left: 50px;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 100px;
+    margin-bottom: 3rem;
+}
+
+.timeline-dot {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border: 4px solid var(--text-main);
+    border-radius: 50%;
+    left: 41px;
+    top: 5px;
+    z-index: 1;
+}
+
+/* =========================================
+   GitHub Graph
+   ========================================= */
+.contribution-graph {
+    display: grid;
+    grid-template-columns: repeat(52, 1fr);
+    grid-gap: 4px;
+    width: max-content;
+}
+
+.contrib-box {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+.bg-level-0 { background-color: #ebedf0; }
+.bg-level-1 { background-color: #9be9a8; }
+.bg-level-2 { background-color: #40c463; }
+.bg-level-3 { background-color: #30a14e; }
+.bg-level-4 { background-color: #216e39; }
+
+/* =========================================
+   Forms
+   ========================================= */
+.custom-input {
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+}
+
+.custom-input:focus {
+    border-color: var(--text-main);
+    box-shadow: none;
+}
+
+/* =========================================
+   Media Queries
+   ========================================= */
+@media screen and (max-width: 1200px) {
+    .hero-title {
+        font-size: 7rem;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .hero-greeting {
+        font-size: 2.5rem;
+    }
+    .hero-title {
+        font-size: 5rem;
+        letter-spacing: -2px;
+    }
+    .nav-divider {
+        display: none;
+    }
+    .navbar-nav {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-color);
+    }
+    .nav-social-icon {
+        margin-left: 0;
+        margin-right: 0.5rem;
+        margin-top: 1rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .hero-greeting {
+        font-size: 2rem;
+    }
+    .hero-title {
+        font-size: 3.5rem;
+        letter-spacing: -1px;
+    }
+}
