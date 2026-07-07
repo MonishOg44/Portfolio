@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* =========================================
-       Contact Form Validation
+       Contact Form Validation & Redirection
        ========================================= */
     const form = document.getElementById('contact-form');
     
@@ -49,20 +49,29 @@ document.addEventListener('DOMContentLoaded', () => {
             event.stopPropagation();
             
             if (form.checkValidity()) {
-                // Simulate form submission
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+                
+                // Save contact details to localStorage
+                const submissions = JSON.parse(localStorage.getItem('contactSubmissions') || '[]');
+                submissions.push({
+                    name: name,
+                    email: email,
+                    message: message,
+                    timestamp: new Date().toLocaleString()
+                });
+                localStorage.setItem('contactSubmissions', JSON.stringify(submissions));
+                
                 const btn = form.querySelector('button[type="submit"]');
                 const originalText = btn.innerHTML;
                 
-                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending...';
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Saving & Redirecting...';
                 btn.disabled = true;
                 
                 setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                    form.classList.remove('was-validated');
-                    form.reset();
-                    alert("Message sent successfully!");
-                }, 1500);
+                    window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSdDcK1Eqq2I7DU5XZivsB33QCMqumLoWVTdE2Hcx1g67pgRZQ/viewform?usp=dialog";
+                }, 1000);
             }
             
             form.classList.add('was-validated');
