@@ -313,13 +313,24 @@ a:hover {
     color: var(--nav-text-hover) !important;
 }
 
-/* Ensure nav icons (toggler bars) are always visible */
+/* =========================================
+   Hamburger → X Premium Animation
+   ========================================= */
 .navbar-toggler {
     border: none;
-    padding: 0.5rem;
-    font-size: 1.25rem;
-    transition: transform 0.2s ease, color 0.3s ease;
-    color: var(--nav-text-hover) !important;
+    background: none;
+    padding: 0.4rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: transform 0.25s ease;
+    position: relative;
+    z-index: 10;
 }
 
 .navbar-toggler:focus {
@@ -328,7 +339,37 @@ a:hover {
 }
 
 .navbar-toggler:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
+}
+
+/* Hide Bootstrap's default icon, use our own bars */
+.navbar-toggler .fa-bars {
+    display: none;
+}
+
+.toggler-bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--nav-text-hover);
+    border-radius: 2px;
+    transform-origin: center;
+    transition: transform 0.38s cubic-bezier(0.23, 1, 0.32, 1),
+                opacity   0.25s ease,
+                width     0.3s ease,
+                background 0.3s ease;
+}
+
+/* Animate into X when menu is open */
+.navbar-toggler.is-open .toggler-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.navbar-toggler.is-open .toggler-bar:nth-child(2) {
+    opacity: 0;
+    width: 0;
+}
+.navbar-toggler.is-open .toggler-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
 }
 
 /* Dark mode toggle label */
@@ -793,68 +834,155 @@ body.dark-theme .skill-progress-container {
 }
 
 /* =========================================
-   Media Queries & Responsiveness
+   Mobile Navbar — Premium Slide Animation
+   Replaces Bootstrap's jarring collapse with
+   smooth max-height + opacity + transform
    ========================================= */
-@media screen and (max-width: 1200px) {
-    .hero-title {
-        font-size: 7rem;
+
+/* Kill Bootstrap's built-in collapse transition */
+.navbar-collapse.collapsing {
+    height: auto !important;
+    overflow: hidden;
+    transition: none !important; /* we handle it ourselves */
+}
+
+/* Base (closed) state — hidden */
+.navbar-collapse {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity   0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Ensure it doesn't flash during desktop view */
+    display: block !important;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Open state — shown */
+.navbar-collapse.show,
+.navbar-collapse.collapsing {
+    max-height: 600px;
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+    padding-top: 0.75rem;
+}
+
+/* Closing animation — add a class via JS */
+.navbar-collapse.is-closing {
+    max-height: 0 !important;
+    opacity: 0 !important;
+    transform: translateY(-8px) !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Desktop: restore normal flow */
+@media (min-width: 992px) {
+    .navbar-collapse {
+        max-height: none !important;
+        overflow: visible !important;
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        display: flex !important;
     }
 }
 
-@media screen and (max-width: 991px) {
-    .hero-greeting {
-        font-size: 2.5rem;
+/* =========================================
+   Media Queries & Responsiveness
+   Full device range: phone → foldable → tablet
+   → laptop → desktop → wide → TV
+   ========================================= */
+
+/* ── 4K / Ultra-wide TV (2560px+) ── */
+@media screen and (min-width: 2560px) {
+    .navbar {
+        max-width: 1600px;
+        padding: 1rem 3rem;
     }
+    .hero-title { font-size: 13rem; }
+    .hero-greeting { font-size: 5rem; }
+    .section-title h2 { font-size: 3.5rem; }
+    .container { max-width: 1500px; }
+}
+
+/* ── Large Desktop / 1440p (1440px–2559px) ── */
+@media screen and (min-width: 1440px) and (max-width: 2559px) {
+    .navbar { max-width: 1280px; }
+    .hero-title { font-size: 11rem; }
+    .container { max-width: 1320px; }
+}
+
+/* ── Standard Desktop / HD (1200px–1439px) ── */
+@media screen and (max-width: 1200px) {
+    .hero-title { font-size: 7rem; }
+}
+
+/* ── Small Laptop / Large Tablet Landscape (992px–1199px) ── */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .hero-title { font-size: 6rem; }
+    .navbar { max-width: 960px; }
+}
+
+/* ── Tablet / Foldable Open / Small Laptop (768px–991px) ── */
+@media screen and (max-width: 991px) {
+    .hero-greeting { font-size: 2.5rem; }
     .hero-title {
         font-size: 5rem;
         letter-spacing: -2px;
         line-height: 0.9;
     }
-    
-    /* Responsive Mobile Capsule Navigation */
+
+    /* Mobile capsule navbar */
     .navbar {
         border-radius: 30px !important;
         padding: 0.6rem 1.5rem !important;
         width: 92% !important;
         top: 15px !important;
+        /* smooth shape change when open */
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                    border-radius 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
     }
-    
+
     .navbar.scrolled {
         top: 10px !important;
         padding: 0.5rem 1.5rem !important;
     }
 
-    .navbar.menu-open,
-    .navbar:has(.navbar-collapse.show) {
+    /* Solidify bg + shape when menu opens */
+    .navbar.menu-open {
         border-radius: 20px !important;
         background: var(--nav-bg-open) !important;
-        backdrop-filter: blur(20px) !important;
-        -webkit-backdrop-filter: blur(20px) !important;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+        backdrop-filter: blur(24px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.14) !important;
         border: 1px solid var(--border-color) !important;
     }
-    
-    .navbar-collapse {
-        background: transparent !important;
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 1rem 0 0 0 !important;
-        margin-top: 0.5rem !important;
-    }
-    
+
+    /* Mobile nav links — stacked */
     .navbar-collapse .nav-link {
         color: var(--text-main) !important;
-        padding: 0.75rem 0 !important;
+        padding: 0.8rem 0 !important;
         border-bottom: 1px solid var(--border-color) !important;
         margin: 0 !important;
-    }
-    
-    .navbar-collapse .nav-link:last-of-type {
-        border-bottom: none !important;
+        font-size: 1rem !important;
+        /* stagger-in items */
+        transition: color 0.3s ease, opacity 0.3s ease, transform 0.35s ease;
     }
 
+    .navbar-collapse .nav-link:hover {
+        color: var(--accent) !important;
+        transform: translateX(4px);
+    }
+
+    /* Settings dropdown on mobile — inline expand */
     .settings-dropdown {
         background: transparent !important;
         backdrop-filter: none !important;
@@ -865,10 +993,9 @@ body.dark-theme .skill-progress-container {
         padding: 0.5rem 0 !important;
         border-bottom: 1px solid var(--border-color) !important;
         border-radius: 0 !important;
-        /* On mobile, override the fade/transform so it sits inline */
         position: static !important;
         transform: none !important;
-        transition: opacity 0.3s ease !important;
+        transition: opacity 0.3s ease, max-height 0.3s ease !important;
         visibility: hidden;
         opacity: 0;
         pointer-events: none;
@@ -878,18 +1005,16 @@ body.dark-theme .skill-progress-container {
         visibility: visible;
         opacity: 1;
         pointer-events: auto;
-        transform: none !important;
     }
 
-    .nav-divider {
-        display: none;
-    }
-    
+    .nav-divider { display: none; }
+
     .navbar-nav {
         margin-top: 0;
         padding-top: 0;
     }
-    
+
+    /* Social icons row on mobile */
     .nav-social-icon {
         margin-left: 0;
         margin-right: 0.75rem;
@@ -897,43 +1022,33 @@ body.dark-theme .skill-progress-container {
     }
 }
 
+/* ── Mobile Landscape / Foldable Closed (576px–767px) ── */
 @media screen and (max-width: 768px) {
-    .hero-greeting {
-        font-size: 2rem;
-    }
+    .hero-greeting { font-size: 2rem; }
     .hero-title {
         font-size: 3.5rem;
         letter-spacing: -1px;
     }
-    .section-padding {
-        padding: 80px 0;
-    }
-    
-    /* Responsive timeline cards */
-    .timeline::after {
-        left: 30px;
-    }
+    .section-padding { padding: 80px 0; }
+
+    .timeline::after { left: 30px; }
     .timeline-item {
         padding-left: 70px;
         margin-bottom: 2.5rem;
     }
-    .timeline-dot {
-        left: 21px;
-    }
+    .timeline-dot { left: 21px; }
 }
 
+/* ── Small Mobile / iPhone SE (≤576px) ── */
 @media screen and (max-width: 576px) {
-    .hero-greeting {
-        font-size: 1.6rem;
-    }
+    .hero-greeting { font-size: 1.6rem; }
     .hero-title {
         font-size: 2.6rem;
         letter-spacing: -0.5px;
         line-height: 1.0;
         margin-bottom: 2rem;
     }
-    
-    /* Stack hero buttons */
+
     .hero-buttons {
         flex-direction: column;
         width: 100%;
@@ -943,40 +1058,35 @@ body.dark-theme .skill-progress-container {
         width: 100%;
         justify-content: center;
     }
-    
-    .section-padding {
-        padding: 60px 0;
-    }
-    
-    .section-title {
-        margin-bottom: 2rem;
-    }
-    
-    .section-title h2 {
-        font-size: 2rem;
-    }
-    
-    /* Passion section card padding adjustment */
-    .modern-card .p-5 {
-        padding: 1.75rem !important;
-    }
-    
-    /* Micro padding adjustments */
-    .skills-category-card {
-        padding: 1.5rem;
-    }
-    
-    /* Responsive timeline */
-    .timeline::after {
-        left: 20px;
-    }
+
+    .section-padding { padding: 60px 0; }
+    .section-title { margin-bottom: 2rem; }
+    .section-title h2 { font-size: 2rem; }
+    .modern-card .p-5 { padding: 1.75rem !important; }
+    .skills-category-card { padding: 1.5rem; }
+
+    .timeline::after { left: 20px; }
     .timeline-item {
         padding-left: 45px;
         margin-bottom: 2rem;
     }
-    .timeline-dot {
-        left: 11px;
+    .timeline-dot { left: 11px; }
+
+    /* Navbar tighter on very small phones */
+    .navbar {
+        width: 95% !important;
+        padding: 0.5rem 1.2rem !important;
     }
+}
+
+/* ── Tiny phones (≤360px) ── */
+@media screen and (max-width: 360px) {
+    .hero-title {
+        font-size: 2.1rem;
+        letter-spacing: -0.3px;
+    }
+    .hero-greeting { font-size: 1.3rem; }
+    .section-title h2 { font-size: 1.7rem; }
 }
 
 /* =========================================
