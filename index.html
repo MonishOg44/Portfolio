@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
+    <script>(function(){var _w=window,_d=document,_dt=false;_d.addEventListener('contextmenu',function(e){e.preventDefault();return false;});_d.addEventListener('keydown',function(e){if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='C'||e.key==='J'))||(e.ctrlKey&&(e.key==='U'||e.key==='S'))){e.preventDefault();e.stopPropagation();return false;}},true);function _showOv(){if(document.getElementById('_prot_ov'))return;var o=document.createElement('div');o.id='_prot_ov';o.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:#0b0f19;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:monospace;color:#f8fafc;';o.innerHTML='<div style="font-size:3.5rem;margin-bottom:1rem">&#9940;</div><h1 style="font-size:1.6rem;margin-bottom:.5rem">Access Restricted</h1><p style="color:#94a3b8;font-size:.9rem">Developer tools are not permitted on this page.</p>';document.body?document.body.appendChild(o):document.addEventListener('DOMContentLoaded',function(){document.body.appendChild(o);});}function _hideOv(){var o=document.getElementById('_prot_ov');if(o)o.remove();}function _dbgCheck(){var t=new Date();(function(){}).constructor('debugger')();if(new Date()-t>80&&!_dt){_dt=true;_showOv();}}setInterval(_dbgCheck,1500);_w.addEventListener('resize',function(){var open=(_w.outerWidth-_w.innerWidth>160||_w.outerHeight-_w.innerHeight>160);if(open&&!_dt){_dt=true;_showOv();}else if(!open&&_dt){_dt=false;_hideOv();}});})();</script>
 </head>
 <body>
     <!-- Navbar -->
@@ -30,7 +31,19 @@
 
                     <li class="nav-item"><a class="nav-link" href="#experience">Education</a></li>
                     <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#passion">Passion</a></li>
+                    <li class="nav-item dropdown position-relative">
+                        <a class="nav-link settings-toggle-btn d-flex align-items-center" href="#" id="settingsDropdown" role="button" aria-expanded="false">
+                            Settings <i class="fa-solid fa-cog ms-1 nav-cog-icon"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end settings-dropdown p-3" aria-labelledby="settingsDropdown" style="min-width: 180px;">
+                            <li class="d-flex align-items-center justify-content-between">
+                                <span class="small fw-bold text-uppercase settings-label-text">Dark Mode</span>
+                                <div class="form-check form-switch m-0">
+                                    <input class="form-check-input theme-switch-input" type="checkbox" role="switch" id="theme-toggle">
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
                     
                     <div class="nav-divider d-none d-lg-block"></div>
                     
@@ -63,6 +76,14 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Scroll to Discover -->
+        <a href="#skills" class="scroll-discover">
+            <span class="scroll-text">Scroll to discover</span>
+            <div class="scroll-line-container">
+                <div class="scroll-line-moving"></div>
+            </div>
+        </a>
     </header>
 
     <!-- Skills Section -->
