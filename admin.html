@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — Contact Submissions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg:      #0b0f19;
+            --card:    #131b2e;
+            --border:  rgba(255,255,255,0.07);
+            --accent:  #e63946;
+            --text:    #f8fafc;
+            --muted:   #94a3b8;
+            --font:    'Plus Jakarta Sans', sans-serif;
+            --display: 'Space Grotesk', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            min-height: 100vh;
+        }
+
+        /* ── Header ── */
+        .admin-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem 3rem;
+            border-bottom: 1px solid var(--border);
+            background: rgba(19,27,46,0.8);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .admin-header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-logo {
+            width: 42px; height: 42px;
+            background: var(--accent);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--display);
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .admin-title {
+            font-family: var(--display);
+            font-weight: 900;
+            font-size: 1.1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .admin-subtitle {
+            font-size: 0.75rem;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .back-btn {
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1.25rem;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.25s ease;
+        }
+
+        .back-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* ── Main content ── */
+        .admin-main { padding: 2.5rem 3rem; max-width: 1200px; margin: 0 auto; }
+
+        /* ── Stats row ── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            display: flex; align-items: center; gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 44px; height: 44px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.red   { background: rgba(230,57,70,0.15); color: var(--accent); }
+        .stat-icon.blue  { background: rgba(99,102,241,0.15); color: #818cf8; }
+        .stat-icon.green { background: rgba(34,197,94,0.15);  color: #4ade80; }
+
+        .stat-value { font-size: 1.6rem; font-weight: 700; line-height: 1; }
+        .stat-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
+
+        /* ── Toolbar ── */
+        .toolbar {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 220px;
+            max-width: 360px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 14px; top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            color: var(--text);
+            font-family: var(--font);
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.25s ease;
+        }
+
+        .search-box input:focus { border-color: var(--accent); }
+        .search-box input::placeholder { color: var(--muted); }
+
+        .btn-clear-all {
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            background: rgba(230,57,70,0.1);
+            border: 1px solid rgba(230,57,70,0.25);
+            border-radius: 50px;
+            color: var(--accent);
+            font-family: var(--font);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-clear-all:hover { background: rgba(230,57,70,0.2); border-color: var(--accent); }
+
+        /* ── Table ── */
+        .table-wrap {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            background: rgba(255,255,255,0.03);
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: rgba(255,255,255,0.025); }
+
+        tbody td {
+            padding: 1rem 1.25rem;
+            font-size: 0.88rem;
+            vertical-align: middle;
+        }
+
+        .td-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .td-email {
+            color: var(--accent);
+            font-size: 0.82rem;
+        }
+
+        .td-message {
+            color: var(--muted);
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .td-time {
+            color: var(--muted);
+            font-size: 0.78rem;
+            white-space: nowrap;
+        }
+
+        .btn-delete {
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(230,57,70,0.08);
+            border: 1px solid rgba(230,57,70,0.15);
+            border-radius: 8px;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 0.78rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-delete:hover { background: rgba(230,57,70,0.2); border-color: var(--accent); }
+
+        /* ── Empty state ── */
+        .empty-state {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--muted);
+            opacity: 0.3;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .empty-state h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        /* ── Row fade out on delete ── */
+        tr.removing {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* ── Page Shutter Transition overlay ── */
+        #page-transition {
+            position: fixed;
+            inset: 0;
+            background: #0b0f19;
+            z-index: 99995;
+            pointer-events: none;
+            transform: translateY(0); /* starts closed */
+            transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+        #page-transition.exit {
+            transform: translateY(-100%);
+        }
+        #page-transition.active {
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+    </style>
+    <!-- Auth Guard: redirect to login if not authenticated -->
+    <script>
+        if (sessionStorage.getItem('adminAuth') !== 'true') {
+            window.location.replace('login.html');
+        }
+    </script>
+</head>
+<body>
+
+<!-- Shutter Page Transition -->
+<div id="page-transition"></div>
+
+<header class="admin-header">
+    <div class="admin-header-left">
+        <div class="admin-logo">M</div>
+        <div>
+            <div class="admin-title">Admin Dashboard</div>
+            <div class="admin-subtitle">Contact Submissions</div>
+        </div>
+    </div>
+    <div style="display:flex;gap:0.6rem;align-items:center">
+        <a href="index.html" class="back-btn" id="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Back to Site
+        </a>
+        <button id="btn-logout" class="back-btn" style="background:rgba(230,57,70,0.08);border-color:rgba(230,57,70,0.25);color:#e63946;cursor:pointer;font-family:inherit;">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+    </div>
+</header>
+
+<main class="admin-main">
+
+    <!-- Stats -->
+    <div class="stats-row" id="stats-row">
+        <div class="stat-card">
+            <div class="stat-icon red"><i class="fa-solid fa-inbox"></i></div>
+            <div>
+                <div class="stat-value" id="stat-total">0</div>
+                <div class="stat-label">Total Messages</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon blue"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <div>
+                <div class="stat-value" id="stat-latest">—</div>
+                <div class="stat-label">Latest Received</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon green"><i class="fa-solid fa-envelope-open-text"></i></div>
+            <div>
+                <div class="stat-value" id="stat-today">0</div>
+                <div class="stat-label">Today</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-input" placeholder="Search by name, email or message…">
+        </div>
+        <button class="btn-clear-all" id="btn-clear-all">
+            <i class="fa-solid fa-trash"></i> Clear All
+        </button>
+    </div>
+
+    <!-- Table / Empty state -->
+    <div id="table-container"></div>
+
+</main>
+
+<script>
+    var KEY = 'contactSubmissions';
+
+    function load() {
+        return JSON.parse(localStorage.getItem(KEY) || '[]');
+    }
+
+    function save(data) {
+        localStorage.setItem(KEY, JSON.stringify(data));
+    }
+
+    function todayCount(data) {
+        var today = new Date().toLocaleDateString();
+        return data.filter(function (d) {
+            return new Date(d.id).toLocaleDateString() === today;
+        }).length;
+    }
+
+    function renderStats(data) {
+        document.getElementById('stat-total').textContent = data.length;
+        document.getElementById('stat-today').textContent = todayCount(data);
+        if (data.length > 0) {
+            var last = data[data.length - 1];
+            var parts = last.timestamp.split(',');
+            document.getElementById('stat-latest').textContent = parts[0];
+        } else {
+            document.getElementById('stat-latest').textContent = '—';
+        }
+    }
+
+    function renderTable(data, query) {
+        var container = document.getElementById('table-container');
+        query = (query || '').toLowerCase();
+
+        var filtered = query ? data.filter(function (d) {
+            return (d.name + d.email + d.message).toLowerCase().includes(query);
+        }) : data;
+
+        if (filtered.length === 0) {
+            container.innerHTML = '<div class="empty-state">' +
+                '<i class="fa-regular fa-envelope"></i>' +
+                '<h3>' + (query ? 'No results found' : 'No submissions yet') + '</h3>' +
+                '<p>' + (query ? 'Try a different search term.' : 'When someone submits the contact form, it will appear here.') + '</p>' +
+                '</div>';
+            return;
+        }
+
+        var rows = filtered.slice().reverse().map(function (d) {
+            return '<tr data-id="' + d.id + '">' +
+                '<td><div class="td-name">' + esc(d.name) + '</div></td>' +
+                '<td><div class="td-email">' + esc(d.email) + '</div></td>' +
+                '<td><div class="td-message" title="' + esc(d.message) + '">' + esc(d.message) + '</div></td>' +
+                '<td><div class="td-time">' + esc(d.timestamp) + '</div></td>' +
+                '<td><button class="btn-delete" title="Delete" onclick="deleteEntry(' + d.id + ', this)"><i class="fa-solid fa-xmark"></i></button></td>' +
+                '</tr>';
+        }).join('');
+
+        container.innerHTML = '<div class="table-wrap"><table>' +
+            '<thead><tr>' +
+            '<th>Name</th><th>Email</th><th>Message</th><th>Received</th><th></th>' +
+            '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+    }
+
+    function esc(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function deleteEntry(id, btn) {
+        var row = btn.closest('tr');
+        row.classList.add('removing');
+        setTimeout(function () {
+            var data = load().filter(function (d) { return d.id !== id; });
+            save(data);
+            renderStats(data);
+            renderTable(data, document.getElementById('search-input').value);
+        }, 300);
+    }
+
+    document.getElementById('btn-clear-all').addEventListener('click', function () {
+        if (!confirm('Delete all submissions? This cannot be undone.')) return;
+        save([]);
+        renderStats([]);
+        renderTable([]);
+    });
+
+    document.getElementById('search-input').addEventListener('input', function () {
+        renderTable(load(), this.value);
+    });
+
+    /* Initial render */
+    var data = load();
+    renderStats(data);
+    renderTable(data);
+
+    /* Page entry shutter slide out */
+    window.addEventListener('DOMContentLoaded', function () {
+        var pt = document.getElementById('page-transition');
+        if (pt) {
+            setTimeout(function () {
+                pt.classList.add('exit');
+            }, 80);
+        }
+    });
+
+    /* Back to Site link shutter slide in */
+    var backBtn = document.getElementById('btn-back');
+    if (backBtn) {
+        backBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            var pt = document.getElementById('page-transition');
+            if (pt) {
+                pt.classList.remove('exit');
+            }
+            setTimeout(function () {
+                window.location.href = 'index.html';
+            }, 600);
+        });
+    }
+
+    /* Logout */
+    document.getElementById('btn-logout').addEventListener('click', function () {
+        var pt = document.getElementById('page-transition');
+        if (pt) {
+            pt.classList.remove('exit');
+        }
+        setTimeout(function () {
+            sessionStorage.removeItem('adminAuth');
+            window.location.replace('login.html');
+        }, 600);
+    });
+</script>
+</body>
+</html>
