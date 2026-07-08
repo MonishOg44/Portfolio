@@ -1,14 +1,32 @@
 /* =========================================
-   CSS Variables & Light Theme
+   CSS Variables & Light/Dark Theme
    ========================================= */
 :root {
     /* Colors */
     --bg-main: #97c0ea;
     --bg-card: #fbfafa;
+    --bg-light-alt: #f0f0f0;
     --text-main: #111111;
-    --text-muted: #fff6f6;
+    --text-muted: #555555;
     --border-color: #eaeaea;
     --accent: #e63946; /* Vibrant red-orange */
+    --input-bg: #ffffff;
+    --btn-text-color: #ffffff;
+    --contrib-bg-0: #ebedf0;
+    --cog-color: #111111;
+    
+    /* Navbar specific variables */
+    --nav-bg: rgba(255, 255, 255, 0.12);
+    --nav-bg-scrolled: rgba(255, 255, 255, 0.45);
+    --nav-bg-open: rgba(255, 255, 255, 0.95);
+    --nav-border: rgba(255, 255, 255, 0.2);
+    --nav-border-scrolled: rgba(255, 255, 255, 0.35);
+    --nav-text: rgba(17, 17, 17, 0.75);
+    --nav-text-hover: #111111;
+    
+    /* Card Glass Variables */
+    --card-bg-glass: rgba(255, 255, 255, 0.85);
+    --card-border-glass: rgba(255, 255, 255, 0.5);
     
     /* Fonts */
     --font-main: 'Inter', sans-serif;
@@ -17,6 +35,32 @@
     
     /* Transitions */
     --transition-normal: 0.3s ease;
+}
+
+body.dark-theme {
+    --bg-main: #0b0f19;
+    --bg-card: #131b2e;
+    --bg-light-alt: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --input-bg: #1e293b;
+    --btn-text-color: #0b0f19;
+    --contrib-bg-0: #1e293b;
+    --cog-color: #ffffff;
+    
+    /* Navbar specific variables */
+    --nav-bg: rgba(11, 15, 25, 0.12);
+    --nav-bg-scrolled: rgba(11, 15, 25, 0.55);
+    --nav-bg-open: rgba(19, 27, 46, 0.96);
+    --nav-border: rgba(255, 255, 255, 0.08);
+    --nav-border-scrolled: rgba(255, 255, 255, 0.12);
+    --nav-text: rgba(255, 255, 255, 0.90);
+    --nav-text-hover: #ffffff;
+    
+    /* Card Glass Variables */
+    --card-bg-glass: rgba(19, 27, 46, 0.85);
+    --card-border-glass: rgba(255, 255, 255, 0.08);
 }
 
 /* =========================================
@@ -31,6 +75,8 @@
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 body {
@@ -39,6 +85,13 @@ body {
     font-family: var(--font-main);
     line-height: 1.6;
     overflow-x: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+    display: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -55,11 +108,40 @@ a:hover {
     color: var(--accent);
 }
 
+/* Override Bootstrap's .text-muted so it respects our theme */
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* Contact form labels visible in all themes */
+.form-label {
+    color: var(--text-muted) !important;
+}
+
+/* Custom input: ensure text color in dark mode */
+.custom-input {
+    color: var(--text-main) !important;
+    background-color: var(--input-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+.custom-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.custom-input:focus {
+    color: var(--text-main) !important;
+    background-color: var(--input-bg) !important;
+    border-color: var(--text-main) !important;
+    box-shadow: none !important;
+}
+
 /* =========================================
    Utilities
    ========================================= */
 .bg-light-alt {
-    background-color: #f0f0f0;
+    background-color: var(--bg-light-alt);
 }
 
 .section-padding {
@@ -128,7 +210,7 @@ a:hover {
 
 .btn-black {
     background: var(--text-main);
-    color: #fff;
+    color: var(--btn-text-color);
     border: 2px solid var(--text-main);
 }
 
@@ -146,7 +228,7 @@ a:hover {
 .btn-outline:hover {
     border-color: var(--text-main);
     background: var(--text-main);
-    color: #fff;
+    color: var(--btn-text-color);
 }
 
 /* Scroll Reveal */
@@ -161,27 +243,45 @@ a:hover {
     transform: translateY(0);
 }
 
-/* =========================================
-   Navbar
-   ========================================= */
 .navbar {
-    padding: 1.5rem 0;
-    background: transparent;
-    transition: background-color 0.3s ease, padding 0.3s ease;
+    position: fixed;
+    top: 24px;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1100px;
+    border-radius: 100px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid var(--nav-border);
+    box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255,255,255,0.15);
+    padding: 0.75rem 2rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1030;
 }
 
 .navbar.scrolled {
-    background: rgba(250, 249, 246, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--border-color);
+    top: 16px;
+    background: var(--nav-bg-scrolled) !important;
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
+    border: 1px solid var(--nav-border-scrolled);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.10), inset 0 1px 0 rgba(255,255,255,0.12);
+    padding: 0.5rem 2rem;
+}
+
+.navbar .container {
+    max-width: 100%;
+    padding: 0;
 }
 
 .nav-logo-circle {
     width: 40px;
     height: 40px;
     background: var(--text-main);
-    color: #fff;
+    color: var(--bg-card);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -189,27 +289,114 @@ a:hover {
     font-family: var(--font-display);
     font-weight: 900;
     font-size: 1.2rem;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 .nav-link {
-    color: rgba(17, 17, 17, 0.65) !important;
+    color: var(--nav-text) !important;
     font-weight: 600;
     font-size: 0.95rem;
     margin: 0 0.5rem;
-    transition: var(--transition-normal);
+    transition: color 0.3s ease;
 }
 
 .nav-link:hover, .nav-link.active {
-    color: var(--text-main) !important;
+    color: var(--nav-text-hover) !important;
 }
 
 /* Scrolled nav links */
 .navbar.scrolled .nav-link {
-    color: rgba(17, 17, 17, 0.75) !important;
+    color: var(--nav-text) !important;
 }
 
 .navbar.scrolled .nav-link:hover, .navbar.scrolled .nav-link.active {
-    color: var(--text-main) !important;
+    color: var(--nav-text-hover) !important;
+}
+
+/* Ensure nav icons (toggler bars) are always visible */
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+    font-size: 1.25rem;
+    transition: transform 0.2s ease, color 0.3s ease;
+    color: var(--nav-text-hover) !important;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none !important;
+    outline: none;
+}
+
+.navbar-toggler:hover {
+    transform: scale(1.05);
+}
+
+/* Dark mode toggle label */
+.settings-label-text {
+    color: var(--text-main);
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+/* Cog icon: white in dark mode, dark in light mode */
+.nav-cog-icon {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.35s ease,
+                color 0.3s ease;
+    color: var(--cog-color);
+}
+
+/* =========================================
+   Settings Dropdown — Premium Fade In/Out
+   ========================================= */
+.settings-dropdown {
+    background: var(--nav-bg-open) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.14) !important;
+    margin-top: 15px !important;
+    padding: 1rem !important;
+    /* Hide by default, will be animated via JS class */
+    display: block !important;
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    visibility: hidden;
+}
+
+.settings-dropdown.dropdown-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    visibility: visible;
+}
+
+/* Rotate cog when settings open */
+.settings-toggle-btn.active .nav-cog-icon {
+    transform: rotate(90deg);
+}
+
+.settings-dropdown li {
+    padding: 0.25rem 0.5rem;
+}
+
+.settings-dropdown span {
+    transition: color 0.3s ease;
+}
+
+/* Custom styles for the Bootstrap switch */
+.form-check-input:checked {
+    background-color: var(--accent) !important;
+    border-color: var(--accent) !important;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(230, 57, 70, 0.25) !important;
+    border-color: var(--accent) !important;
 }
 
 .nav-divider {
@@ -223,18 +410,19 @@ a:hover {
     width: 32px;
     height: 32px;
     background: var(--text-main);
-    color: #fff;
+    color: var(--bg-card);
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-size: 0.85rem;
     margin-left: 0.5rem;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, background 0.3s ease, color 0.3s ease;
 }
 
 .nav-social-icon:hover {
     transform: scale(1.1);
+    background: var(--accent);
     color: #fff;
 }
 
@@ -246,6 +434,7 @@ a:hover {
     display: flex;
     align-items: center;
     padding-top: 80px;
+    position: relative;
 }
 
 .hero-greeting {
@@ -370,7 +559,7 @@ a:hover {
     border-radius: 2px;
 }
 
-.bg-level-0 { background-color: #ebedf0; }
+.bg-level-0 { background-color: var(--contrib-bg-0); }
 .bg-level-1 { background-color: #9be9a8; }
 .bg-level-2 { background-color: #40c463; }
 .bg-level-3 { background-color: #30a14e; }
@@ -380,7 +569,7 @@ a:hover {
    Forms
    ========================================= */
 .custom-input {
-    background-color: #fff;
+    background-color: var(--input-bg);
     border: 1px solid var(--border-color);
     color: var(--text-main);
     padding: 0.75rem 1rem;
@@ -393,39 +582,25 @@ a:hover {
 }
 
 /* =========================================
-   Navbar Toggler
+   Navbar Toggler (handled above with .nav-link block)
    ========================================= */
-.navbar-toggler {
-    border: none;
-    padding: 0.5rem;
-    color: var(--text-main) !important;
-    font-size: 1.25rem;
-    transition: transform 0.2s ease;
-}
-
-.navbar-toggler:focus {
-    box-shadow: none !important;
-    outline: none;
-}
-
-.navbar-toggler:hover {
-    transform: scale(1.05);
-}
 
 /* =========================================
    Premium Skills & Expertise Section
    ========================================= */
 .skills-category-card {
-    background: rgba(255, 255, 255, 0.85);
+    background: var(--card-bg-glass);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--card-border-glass);
     border-radius: 16px;
     padding: 2rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03);
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
                 box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
-                border-color 0.3s ease;
+                border-color 0.3s ease,
+                background 0.3s ease,
+                border 0.3s ease;
     height: 100%;
 }
 
@@ -441,7 +616,7 @@ a:hover {
     font-weight: 800;
     margin-bottom: 2rem;
     padding-bottom: 0.75rem;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 2px solid var(--border-color);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -518,9 +693,14 @@ a:hover {
 
 .skill-progress-container {
     height: 6px;
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.07);
     border-radius: 10px;
-    overflow: hidden;
+    overflow: visible;
+    position: relative;
+}
+
+body.dark-theme .skill-progress-container {
+    background: rgba(255, 255, 255, 0.07);
 }
 
 .skill-progress-bar {
@@ -528,29 +708,54 @@ a:hover {
     background: linear-gradient(90deg, var(--skill-color) 0%, rgba(var(--skill-color-rgb), 0.85) 100%);
     border-radius: 10px;
     width: 0;
-    transition: width 1.5s cubic-bezier(0.1, 0.8, 0.2, 1);
+    transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
+    overflow: hidden;
 }
 
-.skill-progress-bar::after {
+/* Smooth shimmer sweep inside the bar */
+.skill-progress-bar::before {
     content: '';
     position: absolute;
     top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    left: -60%;
+    width: 50%;
+    height: 100%;
     background: linear-gradient(
         90deg,
         rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0.45) 50%,
         rgba(255, 255, 255, 0) 100%
     );
-    animation: progress-shimmer 2.5s infinite;
+    border-radius: inherit;
+    animation: progress-shimmer 2.2s ease-in-out infinite;
+    animation-delay: 1.6s; /* start after fill completes */
+}
+
+/* Soft aura glow beneath the bar */
+.skill-progress-bar::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: rgba(var(--skill-color-rgb), 0.35);
+    filter: blur(5px);
+    border-radius: 50%;
+    animation: aura-pulse 2s ease-in-out infinite alternate;
 }
 
 @keyframes progress-shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    0%   { left: -60%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { left: 110%; opacity: 0; }
+}
+
+@keyframes aura-pulse {
+    0%   { opacity: 0.25; transform: scaleX(0.9); }
+    100% { opacity: 0.6;  transform: scaleX(1); }
 }
 
 /* Skill Colors Mapping */
@@ -606,27 +811,74 @@ a:hover {
         line-height: 0.9;
     }
     
-    /* Responsive Mobile Navigation Menu */
+    /* Responsive Mobile Capsule Navigation */
+    .navbar {
+        border-radius: 30px !important;
+        padding: 0.6rem 1.5rem !important;
+        width: 92% !important;
+        top: 15px !important;
+    }
+    
+    .navbar.scrolled {
+        top: 10px !important;
+        padding: 0.5rem 1.5rem !important;
+    }
+
+    .navbar.menu-open,
+    .navbar:has(.navbar-collapse.show) {
+        border-radius: 20px !important;
+        background: var(--nav-bg-open) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+        border: 1px solid var(--border-color) !important;
+    }
+    
     .navbar-collapse {
-        background: rgba(250, 249, 246, 0.98);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin-top: 1rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        border: 1px solid var(--border-color);
+        background: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 1rem 0 0 0 !important;
+        margin-top: 0.5rem !important;
     }
     
     .navbar-collapse .nav-link {
         color: var(--text-main) !important;
-        padding: 0.75rem 0;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        margin: 0;
+        padding: 0.75rem 0 !important;
+        border-bottom: 1px solid var(--border-color) !important;
+        margin: 0 !important;
     }
     
     .navbar-collapse .nav-link:last-of-type {
-        border-bottom: none;
+        border-bottom: none !important;
+    }
+
+    .settings-dropdown {
+        background: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin-top: 0 !important;
+        padding: 0.5rem 0 !important;
+        border-bottom: 1px solid var(--border-color) !important;
+        border-radius: 0 !important;
+        /* On mobile, override the fade/transform so it sits inline */
+        position: static !important;
+        transform: none !important;
+        transition: opacity 0.3s ease !important;
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .settings-dropdown.dropdown-open {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+        transform: none !important;
     }
 
     .nav-divider {
@@ -724,5 +976,96 @@ a:hover {
     }
     .timeline-dot {
         left: 11px;
+    }
+}
+
+/* =========================================
+   Scroll to Discover (Minimal Theme-Matching Line)
+   ========================================= */
+.scroll-discover {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 10;
+    text-decoration: none !important;
+    color: var(--text-main) !important;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0.7;
+}
+
+.scroll-text {
+    font-family: var(--font-main);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.scroll-line-container {
+    width: 1px;
+    height: 45px;
+    background: rgba(17, 17, 17, 0.15);
+    position: relative;
+    overflow: hidden;
+    margin-top: 4px;
+    transition: background 0.3s ease;
+}
+
+body.dark-theme .scroll-line-container {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.scroll-line-moving {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: var(--text-main);
+    border-radius: 1px;
+    animation: scroll-line-anim 2.2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+    transition: background 0.3s ease;
+}
+
+@keyframes scroll-line-anim {
+    0% {
+        transform: translateY(-15px);
+    }
+    60% {
+        transform: translateY(45px);
+    }
+    100% {
+        transform: translateY(45px);
+    }
+}
+
+.scroll-discover:hover {
+    opacity: 1;
+    transform: translate(-50%, -4px);
+    color: var(--text-main) !important;
+}
+
+.scroll-discover.fade-out {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+    pointer-events: none;
+}
+
+@media (max-height: 750px) {
+    .scroll-discover {
+        bottom: 15px;
+    }
+}
+
+@media (max-height: 650px) {
+    .scroll-discover {
+        display: none;
     }
 }
